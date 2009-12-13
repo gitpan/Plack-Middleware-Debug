@@ -1,0 +1,107 @@
+NAME
+    Plack::Middleware::Debug - display information about the current
+    request/response
+
+SYNOPSIS
+        # app.psgi
+
+        use Plack::Builder;
+
+        my $app = sub {
+            return [ 200, [ 'Content-Type' => 'text/html' ],
+                   [ '<body>Hello World</body>' ] ];
+        };
+
+        builder {
+            enable 'Debug';
+            $app;
+        };
+
+DESCRIPTION
+    The debug middleware offers a configurable set of panels that displays
+    information about the current request and response. The information is
+    generated only for responses with a status of 200 ("OK") and a
+    "Content-Type" of "text/html" and is embedded in the HTML that is sent
+    back to the browser.
+
+    To enable the middleware, just use Plack::Builder as usual in your
+    ".psgi" file:
+
+        use Plack::Builder;
+
+        builder {
+            enable 'Debug' qw(DBITrace PerlConfig);
+            $app;
+        };
+
+    If you pass a list of panel base names to the "enable()" call, only
+    those panels will be enabled. If you don't pass an argument, the default
+    list of panels - Environment, Response, Timer and Memory - will be
+    enabled.
+
+PANELS
+    "DBITrace"
+        Display DBI trace information. See
+        Plack::Middleware::Debug::DBITrace.
+
+    "Environment"
+        Displays the PSGI environment from the request. See
+        Plack::Middleware::Debug::Environment.
+
+    "Memory"
+        Displays memory usage before the request and after the response. See
+        Plack::Middleware::Debug::Memory.
+
+    "ModuleVersions"
+        Displays the loaded modules and their versions. See
+        Plack::Middleware::Debug::ModuleVersions.
+
+    "PerlConfig"
+        Displays the configuration information of the Perl interpreter
+        itself. See Plack::Middleware::Debug::PerlConfig
+
+    "Response"
+        Displays the status code and response headers. See
+        Plack::Middleware::Debug::Response.
+
+    "Timer"
+        Displays how long the request took. See
+        Plack::Middleware::Debug::Timer.
+
+BUGS AND LIMITATIONS
+    No bugs have been reported.
+
+    Please report any bugs or feature requests through the web interface at
+    <http://rt.cpan.org>.
+
+INSTALLATION
+    See perlmodinstall for information and options on installing Perl
+    modules.
+
+AVAILABILITY
+    The latest version of this module is available from the Comprehensive
+    Perl Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a
+    CPAN site near you. Or see
+    <http://search.cpan.org/dist/Plack-Middleware-Debug/>.
+
+    The development version lives at
+    <http://github.com/hanekomu/plack-middleware-debug/>. Instead of sending
+    patches, please fork this project using the standard git and github
+    infrastructure.
+
+AUTHORS
+    Marcel Grünauer, "<marcel@cpan.org>"
+
+    Tatsuhiko Miyagawa, "<miyagawa@bulknews.net>"
+
+COPYRIGHT AND LICENSE
+    Copyright 2009 by Marcel Grünauer
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+SEE ALSO
+    The debug middleware is heavily influenced (that is, adapted from) the
+    Django Debug Toolbar - see
+    <http://github.com/robhudson/django-debug-toolbar>.
+
