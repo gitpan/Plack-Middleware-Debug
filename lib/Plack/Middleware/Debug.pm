@@ -9,7 +9,7 @@ use Plack::Util;
 use Text::MicroTemplate;
 use Try::Tiny;
 use parent qw(Plack::Middleware);
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub TEMPLATE {
     <<'EOTMPL' }
@@ -87,10 +87,7 @@ sub prepare_app {
       try { File::ShareDir::dist_dir('Plack-Middleware-Debug') } || 'share';
     my @panels;
     for my $package (
-        @{  $self->panels
-              || [qw(Environment Response Timer Memory)]
-        }
-      ) {
+        @{ $self->panels || [qw(Environment Response Timer Memory)] }) {
         my $panel_class = Plack::Util::load_class($package, __PACKAGE__);
         next unless $panel_class->should_run;
         push @panels, $panel_class->new;
@@ -98,11 +95,11 @@ sub prepare_app {
     $self->panels(\@panels);
     $self->renderer(
         Text::MicroTemplate->new(
-            template => $self->TEMPLATE,
-            tag_start => '<%',
-            tag_end => '%>',
+            template   => $self->TEMPLATE,
+            tag_start  => '<%',
+            tag_end    => '%>',
             line_start => '%',
-        )->build
+          )->build
     );
     $self->files(Plack::App::File->new(root => $root));
 }
@@ -121,7 +118,8 @@ sub call {
         sub {
             my $res     = shift;
             my %headers = @{ $res->[1] };
-            if ($res->[0] == 200 && $headers{'Content-Type'} eq 'text/html') {
+            if ($res->[0] == 200
+                && index($headers{'Content-Type'}, 'text/html') != -1) {
                 for my $panel (reverse @{ $self->panels }) {
                     $panel->process_response($res, $env);
                 }
@@ -170,8 +168,8 @@ Plack::Middleware::Debug - display information about the current request/respons
 The debug middleware offers a configurable set of panels that displays
 information about the current request and response. The information is
 generated only for responses with a status of 200 (C<OK>) and a
-C<Content-Type> of C<text/html> and is embedded in the HTML that is sent back
-to the browser.
+C<Content-Type> that contains C<text/html> and is embedded in the HTML that is
+sent back to the browser.
 
 To enable the middleware, just use L<Plack::Builder> as usual in your C<.psgi>
 file:
@@ -179,13 +177,14 @@ file:
     use Plack::Builder;
 
     builder {
-        enable 'Debug' qw(DBITrace PerlConfig);
+        enable 'Debug' panels => [ qw(DBITrace PerlConfig) ];
         $app;
     };
 
 If you pass a list of panel base names to the C<enable()> call, only those
 panels will be enabled. If you don't pass an argument, the default list of
-panels - Environment, Response, Timer and Memory - will be enabled.
+panels - C<Environment>, C<Response>, C<Timer> and C<Memory> - will be
+enabled.
 
 =head1 PANELS
 
@@ -240,12 +239,13 @@ See perlmodinstall for information and options on installing Perl modules.
 =head1 AVAILABILITY
 
 The latest version of this module is available from the Comprehensive Perl
-Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see L<http://search.cpan.org/dist/Plack-Middleware-Debug/>.
+Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN site
+near you. Or see L<http://search.cpan.org/dist/Plack-Middleware-Debug/>.
 
-The development version lives at L<http://github.com/hanekomu/plack-middleware-debug/>.
-Instead of sending patches, please fork this project using the standard git
-and github infrastructure.
+The development version lives at
+L<http://github.com/hanekomu/plack-middleware-debug/>. Instead of sending
+patches, please fork this project using the standard git and github
+infrastructure.
 
 =head1 AUTHORS
 
