@@ -1,27 +1,43 @@
-package Plack::Middleware::Debug::ModuleVersions;
+package Plack::Middleware::Debug::CatalystLog;
 use 5.008;
 use strict;
 use warnings;
-use Module::Versions;
 use parent qw(Plack::Middleware::Debug::Base);
+use Catalyst::Log;
+use Class::Method::Modifiers qw(install_modifier);
 our $VERSION = '0.03';
 
+my $psgi_env;
+install_modifier 'Catalyst::Log', 'around', '_log' => sub {
+    my $orig = shift;
+    my $self = shift;
+    $psgi_env->{'plack.middleware.catalyst_log'} .= "[$_[0]] $_[1]\n";
+    $self->$orig(@_);
+};
+
 sub process_request {
-    my ($self, $env) = @_;
-    my $modules = Module::Versions->HASH;
-    $_ = $_->{VERSION} for values %$modules;
-    $self->content($self->render_hash($modules));
+    my($self, $env) = @_;
+    $psgi_env = $env;
+}
+
+sub process_response {
+    my ($self, $res, $env) = @_;
+
+    my $log = delete $env->{'plack.middleware.catalyst_log'};
+    $self->content("<pre>$log</pre>");
+
+    $psgi_env = undef;
 }
 1;
 __END__
 
 =head1 NAME
 
-Plack::Middleware::Debug::ModuleVersions - Debug panel to inspect the environment
+Plack::Middleware::Debug::Environment - Debug panel to inspect the environment
 
 =head1 SYNOPSIS
 
-    Plack::Middleware::Debug::ModuleVersions->new;
+    Plack::Middleware::Debug::Environment->new;
 
 =head1 DESCRIPTION
 

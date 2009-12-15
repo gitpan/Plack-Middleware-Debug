@@ -29,6 +29,7 @@ inc/Test/More.pm
 INSTALL
 lib/Plack/Middleware/Debug.pm
 lib/Plack/Middleware/Debug/Base.pm
+lib/Plack/Middleware/Debug/CatalystLog.pm
 lib/Plack/Middleware/Debug/DBITrace.pm
 lib/Plack/Middleware/Debug/Environment.pm
 lib/Plack/Middleware/Debug/Memory.pm
@@ -54,7 +55,7 @@ share/debug_toolbar/toolbar.css
 share/debug_toolbar/toolbar.js
 share/debug_toolbar/toolbar.min.css
 share/debug_toolbar/toolbar.min.js
-t/01_misc.t
+t/01_basic.t
 xt/author/00_compile.t
 xt/author/01_perl_critic.t
 xt/author/02_pod.t

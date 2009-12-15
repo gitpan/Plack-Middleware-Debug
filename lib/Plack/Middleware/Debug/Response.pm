@@ -4,9 +4,7 @@ use strict;
 use warnings;
 use parent qw(Plack::Middleware::Debug::Base);
 use HTTP::Headers;
-our $VERSION = '0.02';
-
-sub nav_title { 'Response' }
+our $VERSION = '0.03';
 
 sub format_headers {
     my ($self, $res) = @_;

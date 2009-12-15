@@ -4,8 +4,7 @@ use strict;
 use warnings;
 use Config;
 use parent qw(Plack::Middleware::Debug::Base);
-our $VERSION = '0.02';
-sub nav_title { 'Perl Config' }
+our $VERSION = '0.03';
 
 sub process_request {
     my ($self, $env) = @_;
