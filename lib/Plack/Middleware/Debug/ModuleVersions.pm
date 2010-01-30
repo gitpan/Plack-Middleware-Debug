@@ -4,14 +4,15 @@ use strict;
 use warnings;
 use Module::Versions;
 use parent qw(Plack::Middleware::Debug::Base);
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
-sub process_request {
-    my ($self, $env) = @_;
+sub run {
+    my ($self, $env, $panel) = @_;
     my $modules = Module::Versions->HASH;
     $_ = $_->{VERSION} for values %$modules;
-    $self->content($self->render_hash($modules));
+    $panel->content($self->render_hash($modules));
 }
+
 1;
 __END__
 

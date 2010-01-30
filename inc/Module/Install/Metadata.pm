@@ -6,7 +6,7 @@ use Module::Install::Base ();
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.91';
+	$VERSION = '0.92';
 	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
 }
@@ -441,7 +441,7 @@ sub _extract_license {
 		$_[0] =~ m/
 		(
 			=head \d \s+
-			(?:licen[cs]e|licensing|copyright|legal)\b
+			(?:licen[cs]e|licensing|copyrights?|legal)\b
 			.*?
 		)
 		(=head\\d.*|=cut.*|)
@@ -450,6 +450,7 @@ sub _extract_license {
 		my $license_text = $1;
 		my @phrases      = (
 			'under the same (?:terms|license) as (?:perl|the perl programming language)' => 'perl', 1,
+			'under the terms of (?:perl|the perl programming language) itself' => 'perl', 1,
 			'GNU general public license'         => 'gpl',         1,
 			'GNU public license'                 => 'gpl',         1,
 			'GNU lesser general public license'  => 'lgpl',        1,
@@ -466,7 +467,7 @@ sub _extract_license {
 			'proprietary'                        => 'proprietary', 0,
 		);
 		while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
-			$pattern =~ s#\s+#\\s+#g;
+			$pattern =~ s#\s+#\\s+#gs;
 			if ( $license_text =~ /\b$pattern\b/i ) {
 			        return $license;
 			}
@@ -487,7 +488,11 @@ sub license_from {
 }
 
 sub _extract_bugtracker {
-	my @links   = $_[0] =~ m#L<(\Qhttp://rt.cpan.org/\E[^>]+|\Qhttp://github.com/\E[\w_]+/[\w_]+/issues)>#g;
+	my @links   = $_[0] =~ m#L<(
+	 \Qhttp://rt.cpan.org/\E[^>]+|
+	 \Qhttp://github.com/\E[\w_]+/[\w_]+/issues|
+	 \Qhttp://code.google.com/p/\E[\w_\-]+/issues/list
+	 )>#gx;
 	my %links;
 	@links{@links}=();
 	@links=keys %links;

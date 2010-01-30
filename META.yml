@@ -8,7 +8,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.91'
+generated_by: 'Module::Install version 0.92'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -28,10 +28,8 @@ requires:
   Plack: 0
   Text::MicroTemplate: 0
   parent: 0
-  perl: 5.8.0
+  perl: 5.8.1
 resources:
-  bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Plack-Middleware-Debug
-  homepage: http://search.cpan.org/dist/Plack-Middleware-Debug/
   license: http://dev.perl.org/licenses/
   repository: git://github.com/hanekomu/plack-middleware-debug.git
-version: 0.03
+version: 0.05

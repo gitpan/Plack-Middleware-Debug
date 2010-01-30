@@ -2,13 +2,28 @@ package Plack::Middleware::Debug::Memory;
 use 5.008;
 use strict;
 use warnings;
-use Plack::Util::Accessor qw(before_memory after_memory);
 use parent qw(Plack::Middleware::Debug::Base);
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
-sub nav_subtitle {
-    my $self = shift;
-    $self->format_memory($self->after_memory);
+sub run {
+    my($self, $env, $panel) = @_;
+
+    my $before = $self->current_memory;
+
+    return sub {
+        my $res = shift;
+
+        my $after = $self->current_memory;
+        $panel->nav_subtitle($self->format_memory($after));
+
+        $panel->content(
+            $self->render_list_pairs(
+                [   Before => $self->format_memory($before),
+                    After  => $self->format_memory($after),
+                    Diff   => $self->format_memory($after - $before) ],
+            ),
+        );
+    };
 }
 
 sub format_memory {
@@ -24,25 +39,6 @@ sub current_memory {
     $out;
 }
 
-sub process_request {
-    my ($self, $env) = @_;
-    $self->before_memory($self->current_memory);
-}
-
-sub process_response {
-    my ($self, $res) = @_;
-    $self->after_memory($self->current_memory);
-    $self->content(
-        $self->render_list_pairs(
-            [   Before => $self->format_memory($self->before_memory),
-                After  => $self->format_memory($self->after_memory),
-                Diff   => $self->format_memory(
-                    $self->after_memory - $self->before_memory
-                ),
-            ],
-        )
-    );
-}
 1;
 __END__
 
