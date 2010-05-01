@@ -1,14 +1,14 @@
 ---
 abstract: 'display information about the current request/response'
 author:
-  - 'Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>'
+  - 'Marcel Grünauer, C<< <marcel@cpan.org> >>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
   Test::More: 0.70
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.92'
+generated_by: 'Module::Install version 0.95'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -24,6 +24,7 @@ no_index:
 requires:
   Class::Method::Modifiers: 1.05
   Data::Dump: 0
+  Encode: 2.23
   File::ShareDir: 1.00
   Plack: 0
   Text::MicroTemplate: 0
@@ -31,5 +32,5 @@ requires:
   perl: 5.8.1
 resources:
   license: http://dev.perl.org/licenses/
-  repository: git://github.com/hanekomu/plack-middleware-debug.git
-version: 0.07
+  repository: git://github.com/miyagawa/Plack-Middleware-Debug.git
+version: 0.08
