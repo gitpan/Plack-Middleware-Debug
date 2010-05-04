@@ -33,4 +33,4 @@ requires:
 resources:
   license: http://dev.perl.org/licenses/
   repository: git://github.com/miyagawa/Plack-Middleware-Debug.git
-version: 0.08
+version: 0.09
