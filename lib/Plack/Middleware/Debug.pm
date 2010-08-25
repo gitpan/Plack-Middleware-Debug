@@ -3,7 +3,7 @@ use 5.008_001;
 use strict;
 use warnings;
 use parent qw(Plack::Middleware);
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 use Encode;
 use File::ShareDir;
@@ -137,7 +137,7 @@ sub call {
     $self->response_cb($res, sub {
         my $res     = shift;
         my $headers = Plack::Util::headers($res->[1]);
-        if (   $res->[0] == 200
+        if (   ! Plack::Util::status_with_no_entity_body($res->[0])
             && $headers->get('Content-Type') =~ m!^(?:text/html|application/xhtml\+xml)!) {
 
             my $panels = delete $env->{'plack.debug.panels'};
