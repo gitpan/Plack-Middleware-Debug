@@ -26,7 +26,7 @@ sub run {
         };
         $panel->title('Request Variables');
         $panel->nav_title('Request Variables');
-        $panel->content( sub { $self->render_hash( $parameters, $self->elements ) } );
+        $panel->content($self->render_hash( $parameters, $self->elements ));
     }
 }
 
@@ -41,7 +41,7 @@ Plack::Middleware::Debug::Parameters - Parameters Panel
 
     builder {
         enable 'Debug'; # load defaults
-        enable 'Debug::DBITrace', elements => [qw/headers cookies/];
+        enable 'Debug::Parameters', elements => [qw/headers cookies/];
         $app;
     };
 
