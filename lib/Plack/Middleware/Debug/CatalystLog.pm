@@ -5,7 +5,7 @@ use warnings;
 use parent qw(Plack::Middleware::Debug::Base);
 use Catalyst::Log;
 use Class::Method::Modifiers qw(install_modifier);
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 # XXX Not thread/Coro/AE safe. Should use $c->env or something
 my $psgi_env;
@@ -23,7 +23,7 @@ sub run {
     return sub {
         my $res = shift;
 
-        my $log = delete $env->{'plack.middleware.catalyst_log'};
+        my $log = delete $env->{'plack.middleware.catalyst_log'} || 'No Log';
         $panel->content("<pre>$log</pre>");
         $psgi_env = undef;
     };
@@ -38,15 +38,15 @@ Plack::Middleware::Debug::Environment - Debug panel to inspect the environment
 
 =head1 SYNOPSIS
 
-    Plack::Middleware::Debug::Environment->new;
+  builder {
+      enable "Debug";
+      enable "Debug::CatalystLog";
+      sub { MyApp->run(@_) };
+  };
 
 =head1 DESCRIPTION
 
-=head1 METHODS
-
-=over 4
-
-=back
+This debug panel captures the logging output from Catalyst applications.
 
 =head1 BUGS AND LIMITATIONS
 
