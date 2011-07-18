@@ -3,7 +3,7 @@ use 5.008_001;
 use strict;
 use warnings;
 use parent qw(Plack::Middleware);
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 use Encode;
 use File::ShareDir;
@@ -106,8 +106,10 @@ sub prepare_app {
             $builder->add_middleware("Debug::$package", @$spec);
         } else {
             # $spec could be a code ref (middleware) or a string
-            $spec = "Debug::$spec" unless ref $spec;
-            $builder->add_middleware($spec);
+            # copy so that we do not change default_panels
+            my $spec_copy = $spec;
+            $spec_copy = "Debug::$spec_copy" unless ref $spec_copy;
+            $builder->add_middleware($spec_copy);
         }
     }
 
