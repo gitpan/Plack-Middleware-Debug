@@ -3,7 +3,7 @@ use 5.008_001;
 use strict;
 use warnings;
 use parent qw(Plack::Middleware);
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 use Encode;
 use File::ShareDir;
@@ -340,7 +340,7 @@ infrastructure.
 
 =head1 AUTHORS
 
-Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
+Marcel Grunauer, C<< <marcel@cpan.org> >>
 
 Tatsuhiko Miyagawa, C<< <miyagawa@bulknews.net> >>
 
