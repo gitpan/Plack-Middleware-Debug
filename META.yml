@@ -34,12 +34,14 @@ resources:
   bugtracker: https://github.com/miyagawa/Plack-Middleware-Debug/issues
   homepage: https://github.com/miyagawa/Plack-Middleware-Debug
   repository: https://github.com/miyagawa/Plack-Middleware-Debug.git
-version: 0.15
+version: 0.16
 x_contributors:
+  - 'Andreas Marienborg <andreas.marienborg@gmail.com>'
   - 'Chisel <chisel@chizography.net>'
   - 'Graham Knop <haarg@haarg.org>'
   - 'John Napiorkowski <jjn1056@yahoo.com>'
   - 'Jonathan Swartz <swartz@pobox.com>'
   - 'Marcel Gruenauer <hanekomu@gmail.com>'
+  - 'Olaf Alders <olaf@wundersolutions.com>'
   - 'Tatsuhiko Miyagawa <miyagawa@gmail.com>'
   - 'franck cuny <franck@lumberjaph.net>'

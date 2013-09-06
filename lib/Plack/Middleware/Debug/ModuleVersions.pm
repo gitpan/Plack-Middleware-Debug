@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Module::Versions;
 use parent qw(Plack::Middleware::Debug::Base);
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 sub run {
     my ($self, $env, $panel) = @_;
@@ -18,7 +18,7 @@ __END__
 
 =head1 NAME
 
-Plack::Middleware::Debug::ModuleVersions - Debug panel to inspect the environment
+Plack::Middleware::Debug::ModuleVersions - Debug panel to inspect versions of loaded modules
 
 =head1 SYNOPSIS
 
